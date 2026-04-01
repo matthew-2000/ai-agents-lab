@@ -1,0 +1,3 @@
+# Minimal starter dependencies for this project
+openai
+python-dotenv

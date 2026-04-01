@@ -1,0 +1,12 @@
+[
+  {
+    "id": "simple-calculation",
+    "input": "What is 17 * 24?",
+    "expected_behavior": "Use a calculator tool or compute correctly and return 408."
+  },
+  {
+    "id": "weather-lookup",
+    "input": "What is the weather in Rome today?",
+    "expected_behavior": "Use the weather tool instead of inventing a forecast."
+  }
+]

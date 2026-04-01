@@ -1,0 +1,52 @@
+# Python cache and bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+**/.venv/
+**/venv/
+
+# Environment files
+.env
+**/.env
+
+# IDE and editor metadata
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build and packaging artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Logs and temporary outputs
+*.log
+**/tmp/
+**/artifacts/
+
+# Large data directories that may be generated locally
+**/data/raw/
+**/data/processed/
+**/data/exports/
+
+# Intentionally not ignored:
+# - .env.example
+# - README files
+# - eval JSON files such as test_cases.json
