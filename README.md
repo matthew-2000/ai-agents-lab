@@ -32,9 +32,11 @@ The sequence starts with simple tool use and moves toward memory, planning, coor
 
 ## Current State
 
-The repository currently contains the initial scaffold for `01-tool-using-assistant` plus the shared documentation used to guide future projects.
+The repository currently contains:
 
-The next project directories will be added as they become concrete enough to be useful on their own.
+- the initial scaffold for `01-tool-using-assistant`
+- planned stubs for `02` through `09`
+- shared documentation used to keep the sequence consistent as the projects evolve
 
 ## How To Read It
 
