@@ -2,6 +2,11 @@
 
 This repository follows a progressive path from simple single-agent systems to more advanced multi-agent and safety-aware designs.
 
+Current state:
+
+- `01-tool-using-assistant` is scaffolded.
+- `02` through `09` are planned.
+
 ## Stage 1: Single-Agent Foundations
 
 ### 01. Tool-Using Assistant

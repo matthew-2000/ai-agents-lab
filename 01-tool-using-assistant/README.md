@@ -115,13 +115,12 @@ Once the base loop is stable, useful follow-ups include:
 - better tracing and observability
 - prompt variants for tool selection strategy
 
-## Why This Project Matters In The Portfolio
+## Why This Project Matters
 
-This project is small by design, but it is strategically important.
-It gives the repository a credible starting point and makes later projects easier to justify:
+This project is small by design, but it establishes the baseline for everything that follows:
 
-- memory matters more once tool usage is already clear
-- planning matters more once a basic action loop exists
-- multi-agent patterns matter more once a single-agent baseline is understood
+- tool use becomes easier to evaluate once the loop is explicit
+- later work on memory and planning is easier to reason about with a simple baseline
+- multi-agent patterns are easier to compare against a clear single-agent starting point
 
-A strong implementation here makes the rest of the lab look more coherent and technically disciplined.
+A strong implementation here makes the later projects easier to understand and evaluate.

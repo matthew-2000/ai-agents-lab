@@ -1,6 +1,6 @@
 # Project Template
 
-Use this template when adding a new independent project to `ai-agents-lab`.
+Use this template when adding a new project to `ai-agents-lab`.
 
 ## Objective
 
@@ -32,7 +32,7 @@ Examples:
 
 - no real-world transactions
 - no autonomous high-risk actions
-- no persistent shared state across projects
+- no unnecessary scope expansion
 
 ## Evaluation
 
