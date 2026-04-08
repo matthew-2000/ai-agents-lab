@@ -2,19 +2,49 @@
   {
     "id": "kb-001",
     "title": "Short-term memory in assistants",
-    "text": "Short-term memory helps an assistant carry user facts, preferences, and recent context across a conversation without pretending to have permanent recall.",
-    "tags": ["memory", "assistant", "context"]
+    "text": "Short-term memory helps an assistant preserve user facts, preferences, and recent conversational context across nearby turns. It should be treated as conversation state rather than external knowledge. A memory layer is useful for recall tasks such as remembering a user's name, preferences, or updated location. It should stay separate from retrieved documents so the system can distinguish what the user said from what the knowledge base says.",
+    "tags": ["memory", "assistant", "context", "state"]
   },
   {
     "id": "kb-002",
-    "title": "Retrieval augmented generation basics",
-    "text": "Retrieval augmented generation combines a model with external documents so the final answer can be grounded in retrieved evidence instead of relying only on parametric memory.",
-    "tags": ["retrieval", "rag", "grounding"]
+    "title": "Retrieval augmented generation overview",
+    "text": "Retrieval augmented generation, often shortened to RAG, combines a generative model with an external retrieval system. The retriever fetches relevant passages from a knowledge base or document index, and the generator answers using those passages as grounding context. The main goal is to reduce unsupported answers and improve factuality by conditioning the model on fresh or domain-specific information. A good RAG system should expose which passages were used so the answer remains inspectable.",
+    "tags": ["retrieval", "rag", "grounding", "overview"]
   },
   {
     "id": "kb-003",
-    "title": "Why keep memory and retrieval separate",
-    "text": "Conversation memory and external retrieval serve different purposes. Memory stores what the user said earlier, while retrieval fetches information from a knowledge base or document set.",
-    "tags": ["memory", "retrieval", "architecture"]
+    "title": "Memory versus retrieval",
+    "text": "Conversation memory and document retrieval solve different problems. Memory captures user-provided facts from the current dialogue, such as preferences or prior commitments. Retrieval fetches information from an external knowledge source that exists independently of the current conversation. Mixing the two without labels makes debugging and evaluation harder because the system can no longer tell whether a claim came from the user or from the corpus.",
+    "tags": ["memory", "retrieval", "architecture", "separation"]
+  },
+  {
+    "id": "kb-004",
+    "title": "Chunking strategy for RAG",
+    "text": "Chunking is the process of splitting source documents into smaller retrievable passages. Chunks should be large enough to preserve meaning but small enough to avoid irrelevant context overwhelming the answer. Common strategies include sentence windows, paragraph chunks, and overlapping segments that reduce boundary loss. Poor chunking lowers retrieval quality because even a good ranker cannot recover facts that are split awkwardly across passages.",
+    "tags": ["chunking", "rag", "retrieval", "passages"]
+  },
+  {
+    "id": "kb-005",
+    "title": "Sparse and dense retrieval",
+    "text": "Sparse retrieval methods such as BM25 rely on lexical overlap between the query and the indexed text. Dense retrieval methods rely on embeddings and capture semantic similarity even when exact words differ. In practice, many professional RAG systems use hybrid retrieval because lexical methods remain strong for precision while dense methods improve recall on paraphrased questions. A reranker can then refine the final candidate set before generation.",
+    "tags": ["bm25", "dense retrieval", "hybrid retrieval", "reranking"]
+  },
+  {
+    "id": "kb-006",
+    "title": "Grounded answer generation and citations",
+    "text": "A grounded RAG answer should clearly separate supported claims from unsupported guesses. One practical technique is to require inline citations that reference the retrieved chunk identifiers used for each externally grounded claim. Citations do not guarantee correctness on their own, but they make inspection and debugging much easier. If the retrieved evidence is insufficient, the assistant should say so instead of presenting an ungrounded synthesis with false confidence.",
+    "tags": ["grounding", "citations", "attribution", "safety"]
+  },
+  {
+    "id": "kb-007",
+    "title": "Evaluating a RAG system",
+    "text": "A serious RAG evaluation should look beyond fluency. Useful dimensions include retrieval relevance, answer correctness, citation quality, groundedness, and robustness on ambiguous questions. It is common to inspect both retrieval-stage failures, such as missing the right passage, and generation-stage failures, such as hallucinating beyond the retrieved evidence. Lightweight eval suites can still be valuable if they make success and failure criteria explicit.",
+    "tags": ["evaluation", "groundedness", "rag", "quality"]
+  },
+  {
+    "id": "kb-008",
+    "title": "Common RAG failure modes",
+    "text": "Typical RAG failure modes include retrieving irrelevant passages, missing the truly relevant passage, and over-trusting weak evidence. Another common failure is answering beyond the evidence by combining retrieved facts with unsupported model priors. Systems can also fail by giving users no signal that the evidence is weak or incomplete. Stronger systems expose confidence limits and prefer clarification or abstention when grounding is thin.",
+    "tags": ["failure modes", "hallucination", "retrieval quality", "abstention"]
   }
 ]

@@ -28,6 +28,9 @@ Follow these rules:
 - When the user shares a personal fact or preference, acknowledge it briefly without adding extra questions.
 - For direct memory questions, answer in one short sentence when possible.
 - For knowledge questions, start with a short grounded answer before any optional detail.
+- When retrieved context is available, support externally grounded claims with inline citations like [kb-002#chunk-01].
+- Never cite chunk ids that were not provided in the retrieved context block.
+- If retrieved context is insufficient for a claim, say so rather than guessing.
 """.strip()
 
 

@@ -40,3 +40,12 @@
 - Conflict tracking currently covers only the structured fact fields already extracted.
 - The local guardrail responses are intentionally simple and deterministic.
 - Some legitimate short questions may be treated as ambiguous until heuristics improve.
+
+## RAG Upgrade Decisions
+
+- Retrieval now runs over chunked source documents instead of whole-document blobs.
+- The chunk scorer is a deterministic hybrid lexical ranker with title and tag boosts.
+- The generator is instructed to use inline chunk citations, and the runtime validates that
+  cited chunk ids belong to the retrieved set.
+- A lightweight eval runner is part of the project so retrieval, grounding, and safety behavior
+  can be exercised repeatedly.

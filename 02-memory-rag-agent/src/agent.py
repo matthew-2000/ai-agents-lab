@@ -53,6 +53,8 @@ class AgentTurnResult:
     retrieved_snippets: list[dict[str, Any]]
     warnings: list[str]
     response_origin: str
+    cited_chunk_ids: list[str]
+    citation_validation_passed: bool
 
 
 def build_diagnostics_block(warnings: list[str], relevant_conflicts: list[MemoryConflict]) -> str:
@@ -88,6 +90,17 @@ def format_sources_appendix(snippets: list[RetrievedSnippet]) -> str:
     for snippet in snippets:
         lines.append(f"- {snippet.id}: {snippet.title}")
     return "\n".join(lines)
+
+
+def extract_chunk_citations(text: str) -> list[str]:
+    """Extract inline chunk citations such as [kb-002#chunk-01]."""
+
+    citations = re.findall(r"\[(kb-\d{3}#chunk-\d{2})\]", text)
+    seen: list[str] = []
+    for citation in citations:
+        if citation not in seen:
+            seen.append(citation)
+    return seen
 
 
 class TraceLogger:
@@ -231,9 +244,21 @@ class MemoryRagAgent:
         if not raw_final_text:
             raise RuntimeError("The model returned no final text for this turn.")
 
+        allowed_chunk_ids = {snippet.id for snippet in retrieval_decision.snippets}
+        cited_chunk_ids = extract_chunk_citations(raw_final_text)
+        invalid_citations = [citation for citation in cited_chunk_ids if citation not in allowed_chunk_ids]
+        citation_validation_passed = True
+        if retrieval_decision.should_retrieve and response_origin == "model":
+            if not cited_chunk_ids:
+                warnings.append("model answer did not include inline chunk citations")
+                citation_validation_passed = False
+            if invalid_citations:
+                warnings.append("model answer cited chunk ids that were not retrieved")
+                citation_validation_passed = False
+
         sources_appendix = format_sources_appendix(retrieval_decision.snippets)
         final_text = raw_final_text
-        if retrieval_decision.should_retrieve and sources_appendix:
+        if retrieval_decision.should_retrieve and response_origin == "model" and sources_appendix:
             final_text = f"{raw_final_text}\n\n{sources_appendix}"
 
         self.memory_store.remember_user_message(user_input)
@@ -257,6 +282,8 @@ class MemoryRagAgent:
                     "snippets": [asdict(snippet) for snippet in retrieval_decision.snippets],
                 },
                 "warnings": warnings,
+                "cited_chunk_ids": cited_chunk_ids,
+                "citation_validation_passed": citation_validation_passed,
                 "relevant_conflicts": [asdict(conflict) for conflict in relevant_conflicts],
             },
         )
@@ -272,6 +299,8 @@ class MemoryRagAgent:
             retrieved_snippets=[asdict(snippet) for snippet in retrieval_decision.snippets],
             warnings=warnings,
             response_origin=response_origin,
+            cited_chunk_ids=cited_chunk_ids,
+            citation_validation_passed=citation_validation_passed,
         )
 
 

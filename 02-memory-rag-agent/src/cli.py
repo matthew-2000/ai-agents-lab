@@ -6,10 +6,12 @@ import argparse
 from dataclasses import asdict, is_dataclass
 import json
 import os
+from pathlib import Path
 import sys
 
 from agent import AgentTurnResult, MemoryRagAgent, TraceLogger, create_openai_client, load_environment
 from config import DEFAULT_MAX_RECENT_TURNS, DEFAULT_MODEL
+from eval_runner import evaluate_case, load_eval_cases
 from memory import ShortTermMemoryStore
 from retrieval import LocalKnowledgeBase, load_knowledge_base
 
@@ -49,10 +51,10 @@ class FakeResponsesAPI:
 
     def create(self, model: str, instructions: str, input: list[dict[str, str]]) -> FakeResponse:
         latest_user_input = input[-1]["content"] if input else ""
-        if "snippet_id:" in instructions:
+        if "chunk_id:" in instructions:
             return FakeResponse(
                 "Retrieval augmented generation combines a model with external documents so answers "
-                "can be grounded in retrieved evidence."
+                "can be grounded in retrieved evidence [kb-002#chunk-01]."
             )
         if "what is my name" in latest_user_input.lower():
             return FakeResponse("You told me your name is Matteo.")
@@ -121,6 +123,8 @@ def run_self_check() -> None:
             "retrieved_snippets": fake_result.retrieved_snippets,
             "warnings": fake_result.warnings,
             "response_origin": fake_result.response_origin,
+            "cited_chunk_ids": fake_result.cited_chunk_ids,
+            "citation_validation_passed": fake_result.citation_validation_passed,
         }
     )
     print()
@@ -175,6 +179,12 @@ def print_run_result(result: AgentTurnResult) -> None:
     print(
         f"Retrieval> used={str(result.retrieval_used).lower()} | reason={result.retrieval_reason}"
     )
+    if result.retrieval_used:
+        print(
+            "Citations> "
+            f"valid={str(result.citation_validation_passed).lower()} | "
+            f"ids={', '.join(result.cited_chunk_ids) if result.cited_chunk_ids else 'none'}"
+        )
     if result.warnings:
         print("Warnings>")
         for warning in result.warnings:
@@ -202,6 +212,7 @@ def print_repl_help() -> None:
     print("/example <id>        Run one bundled example in the current session")
     print("/memory              Show the current memory snapshot")
     print("/retrieve <query>    Preview retrieval results without calling the model")
+    print("/run-evals           Run the eval suite against the live model")
     print("/reset               Clear the current conversation memory")
     print("/self-check          Run local deterministic checks")
     print("/exit                Quit the CLI")
@@ -231,6 +242,9 @@ def handle_repl_command(command: str, agent: MemoryRagAgent) -> bool:
 
         decision = agent.knowledge_base.decide_retrieval(query, top_k=2)
         print_json(decision)
+        return True
+    if normalized == "/run-evals":
+        run_live_evals(model=agent.model, max_recent_turns=agent.memory_store.max_recent_turns, no_log=False)
         return True
     if normalized == "/reset":
         agent.memory_store.reset()
@@ -341,7 +355,44 @@ def build_parser() -> argparse.ArgumentParser:
         dest="prompts",
         help="Run one prompt non-interactively. Repeat to keep the same session across turns.",
     )
+    parser.add_argument(
+        "--run-evals",
+        action="store_true",
+        help="Run the eval suite against the live model.",
+    )
     return parser
+
+
+def run_live_evals(model: str, max_recent_turns: int, no_log: bool) -> int:
+    project_root = Path(__file__).resolve().parent.parent
+    cases = load_eval_cases(project_root)
+    client = create_openai_client()
+    knowledge_base = LocalKnowledgeBase(load_knowledge_base())
+
+    results = []
+    for case in cases:
+        memory_store = ShortTermMemoryStore(max_recent_turns=max_recent_turns)
+        logger = TraceLogger(enabled=not no_log)
+        agent = MemoryRagAgent(
+            client=client,
+            model=model,
+            memory_store=memory_store,
+            knowledge_base=knowledge_base,
+            logger=logger,
+        )
+        results.append(evaluate_case(case, agent))
+
+    passed = sum(1 for result in results if result.passed)
+    total = len(results)
+    print(f"Eval summary: {passed}/{total} passed\n")
+    for result in results:
+        status = "PASS" if result.passed else "FAIL"
+        print(f"[{status}] {result.case_id}")
+        for check in result.checks:
+            print(f"- {check['status']}: {check['message']}")
+        print()
+
+    return 0 if passed == total else 1
 
 
 def run_prompt_sequence(model: str, max_recent_turns: int, no_log: bool, prompts: list[str]) -> int:
@@ -375,6 +426,15 @@ def main() -> None:
         if args.self_check:
             run_self_check()
             raise SystemExit(0)
+
+        if args.run_evals:
+            raise SystemExit(
+                run_live_evals(
+                    model=args.model,
+                    max_recent_turns=args.max_recent_turns,
+                    no_log=args.no_log,
+                )
+            )
 
         if args.prompts:
             raise SystemExit(

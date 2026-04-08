@@ -40,5 +40,11 @@
     "category": "robustness",
     "summary": "Trigger a clarification response on an underspecified question",
     "prompt": "Which one is better?"
+  },
+  {
+    "id": "retrieval-sparse-vs-dense",
+    "category": "retrieval",
+    "summary": "Ask a more specific retrieval question over the chunked KB",
+    "prompt": "What is the difference between sparse and dense retrieval?"
   }
 ]
