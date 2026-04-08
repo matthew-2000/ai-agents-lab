@@ -1,11 +1,11 @@
 [
   {
-    "id": "web-openai-retrieval",
-    "title": "OpenAI Retrieval Guide",
-    "url": "https://platform.openai.com/docs/guides/retrieval",
-    "tags": ["openai", "retrieval", "rag", "official"],
+    "id": "web-sqlite-fts5",
+    "title": "SQLite FTS5",
+    "url": "https://www.sqlite.org/fts5.html",
+    "tags": ["sqlite", "full-text search", "retrieval", "official"],
     "language": "en",
-    "notes": "Official retrieval guidance used as a trusted web source."
+    "notes": "Official SQLite documentation for full-text search concepts."
   },
   {
     "id": "web-python-urllib",
@@ -16,11 +16,11 @@
     "notes": "Python standard-library networking documentation."
   },
   {
-    "id": "web-postgres-text-search",
-    "title": "PostgreSQL Full Text Search Introduction",
-    "url": "https://www.postgresql.org/docs/current/textsearch-intro.html",
-    "tags": ["postgresql", "search", "retrieval", "official"],
+    "id": "web-qdrant-search",
+    "title": "Qdrant Search Concepts",
+    "url": "https://qdrant.tech/documentation/concepts/search/",
+    "tags": ["qdrant", "vector search", "retrieval", "official"],
     "language": "en",
-    "notes": "Reference source for search and indexing concepts."
+    "notes": "Official Qdrant search documentation for vector retrieval concepts."
   }
 ]

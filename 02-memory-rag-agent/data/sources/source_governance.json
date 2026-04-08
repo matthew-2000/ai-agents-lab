@@ -1,11 +1,11 @@
 [
   {
-    "host": "platform.openai.com",
-    "trust_score": 0.97,
+    "host": "www.sqlite.org",
+    "trust_score": 0.95,
     "source_type": "remote_web",
     "allow_subdomains": false,
-    "allowed_prefixes": ["/docs/"],
-    "freshness_sensitive": true
+    "allowed_prefixes": ["/"],
+    "freshness_sensitive": false
   },
   {
     "host": "docs.python.org",
@@ -16,11 +16,11 @@
     "freshness_sensitive": false
   },
   {
-    "host": "www.postgresql.org",
-    "trust_score": 0.93,
+    "host": "qdrant.tech",
+    "trust_score": 0.92,
     "source_type": "remote_web",
     "allow_subdomains": false,
-    "allowed_prefixes": ["/docs/current/"],
+    "allowed_prefixes": ["/documentation/"],
     "freshness_sensitive": false
   }
 ]

@@ -1,0 +1,22 @@
+{
+  "sources": {
+    "web-sqlite-fts5": {
+      "content_hash": "007f41bb62e33f2890f21b96f48c15790ce58cdd582d02ba3d18b2d5883cb734",
+      "cache_path": "/Users/matteoercolino/Projects/ai-agents-lab/02-memory-rag-agent/data/remote_cache/web-sqlite-fts5.json",
+      "canonical_url": "https://www.sqlite.org/fts5.html",
+      "synced_at": "2026-04-08T14:12:47+00:00"
+    },
+    "web-python-urllib": {
+      "content_hash": "952fbb722b16998a04d7cd6f36203cf55cc1c5209482296350578700f79bcccb",
+      "cache_path": "/Users/matteoercolino/Projects/ai-agents-lab/02-memory-rag-agent/data/remote_cache/web-python-urllib.json",
+      "canonical_url": "https://docs.python.org/3/library/urllib.request.html",
+      "synced_at": "2026-04-08T14:12:47+00:00"
+    },
+    "web-qdrant-search": {
+      "content_hash": "44f2f161346160086389b1d076e131ac5c6410b083a2a9dbfdaa5a8c4a7ec342",
+      "cache_path": "/Users/matteoercolino/Projects/ai-agents-lab/02-memory-rag-agent/data/remote_cache/web-qdrant-search.json",
+      "canonical_url": "https://qdrant.tech/documentation/concepts/search/",
+      "synced_at": "2026-04-08T14:12:48+00:00"
+    }
+  }
+}

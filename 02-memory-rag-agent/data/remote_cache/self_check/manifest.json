@@ -4,13 +4,13 @@
       "content_hash": "8afe03da2dd148da4edbdfd1acb69596c53730310d8069223e4d5ca9b54a3fac",
       "cache_path": "/Users/matteoercolino/Projects/ai-agents-lab/02-memory-rag-agent/data/remote_cache/self_check/web-openai-retrieval.json",
       "canonical_url": "https://platform.openai.com/docs/guides/retrieval",
-      "synced_at": "2026-04-08T14:03:12+00:00"
+      "synced_at": "2026-04-08T14:12:33+00:00"
     },
     "web-python-urllib": {
       "content_hash": "88525f84d7b573e77b3bb415d080c87d4d2e73d037ebaec2edb70abccd028134",
       "cache_path": "/Users/matteoercolino/Projects/ai-agents-lab/02-memory-rag-agent/data/remote_cache/self_check/web-python-urllib.json",
       "canonical_url": "https://docs.python.org/3/library/urllib.request.html",
-      "synced_at": "2026-04-08T14:03:12+00:00"
+      "synced_at": "2026-04-08T14:12:33+00:00"
     }
   }
 }

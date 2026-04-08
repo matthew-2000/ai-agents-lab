@@ -8,7 +8,9 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import ssl
 from typing import Any
+from urllib.error import URLError
 from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
@@ -159,6 +161,17 @@ def _compute_hash(value: str) -> str:
     return hashlib.sha256(value.encode("utf-8")).hexdigest()
 
 
+def _build_ssl_context() -> ssl.SSLContext:
+    """Build an HTTPS context with a reliable CA bundle when available."""
+
+    try:
+        import certifi
+    except ImportError:
+        return ssl.create_default_context()
+
+    return ssl.create_default_context(cafile=certifi.where())
+
+
 def _match_governance_rule(canonical_url: str, rules: dict[str, GovernanceRule]) -> GovernanceRule:
     parsed = urlparse(canonical_url)
     host = (parsed.hostname or "").lower()
@@ -192,9 +205,24 @@ def _fetch_remote_content(spec: RemoteSourceSpec) -> tuple[str, dict[str, str]]:
             "Accept": "text/html,application/xhtml+xml,text/plain",
         },
     )
-    with urlopen(request, timeout=15) as response:  # noqa: S310
-        payload = response.read()
-        headers = {key.lower(): value for key, value in response.headers.items()}
+    try:
+        with urlopen(request, timeout=15, context=_build_ssl_context()) as response:  # noqa: S310
+            payload = response.read()
+            headers = {key.lower(): value for key, value in response.headers.items()}
+    except URLError as exc:
+        reason = getattr(exc, "reason", exc)
+        if isinstance(reason, ssl.SSLCertVerificationError):
+            raise RuntimeError(
+                "HTTPS certificate verification failed while syncing trusted sources. "
+                "This interpreter could not validate the remote certificate chain. "
+                "The sync now prefers certifi automatically, but if the problem persists on macOS "
+                "run the bundled 'Install Certificates.command' for your Python installation or "
+                "use a Python environment with an up-to-date CA bundle."
+            ) from exc
+        raise RuntimeError(
+            f"Failed to fetch trusted source '{spec.id}' from {spec.url}: {reason}"
+        ) from exc
+
     content_type = headers.get("content-type", "")
     if "charset=" in content_type:
         charset = content_type.split("charset=")[-1].split(";")[0].strip()
@@ -263,13 +291,26 @@ def sync_online_sources(
 
     for spec in catalog:
         canonical_url = spec.canonical_url or spec.url
-        rule = _match_governance_rule(canonical_url, governance_rules)
-        raw_content, headers = _fetch_remote_content(spec)
-        document = _build_remote_document(spec, rule, raw_content, headers)
-        content_hash = _compute_hash(document.text)
-        previous = manifest.setdefault("sources", {}).get(spec.id)
-
         cache_path = cache_dir / f"{_slugify(spec.id)}.json"
+        try:
+            rule = _match_governance_rule(canonical_url, governance_rules)
+            raw_content, headers = _fetch_remote_content(spec)
+            document = _build_remote_document(spec, rule, raw_content, headers)
+            content_hash = _compute_hash(document.text)
+            previous = manifest.setdefault("sources", {}).get(spec.id)
+        except Exception as exc:  # noqa: BLE001
+            results.append(
+                SyncRecord(
+                    source_id=spec.id,
+                    status="failed",
+                    url=canonical_url,
+                    cache_path=str(cache_path) if cache_path.exists() else None,
+                    content_hash=None,
+                    message=str(exc),
+                )
+            )
+            continue
+
         if not force and previous and previous.get("content_hash") == content_hash and cache_path.exists():
             results.append(
                 SyncRecord(

@@ -1,0 +1,24 @@
+{
+  "doc_id": "web-qdrant-search",
+  "source_type": "remote_web",
+  "title": "https://qdrant.tech/documentation/search/search/",
+  "text": "https://qdrant.tech/documentation/search/search/",
+  "url": "https://qdrant.tech/documentation/concepts/search/",
+  "section": "qdrant.tech",
+  "updated_at": null,
+  "language": "en",
+  "tags": [
+    "qdrant",
+    "vector search",
+    "retrieval",
+    "official"
+  ],
+  "trust_score": 0.92,
+  "metadata": {
+    "host": "qdrant.tech",
+    "freshness_sensitive": false,
+    "notes": "Official Qdrant search documentation for vector retrieval concepts.",
+    "synced_at": "2026-04-08T14:12:48+00:00",
+    "content_type": "text/html; charset=UTF-8"
+  }
+}
