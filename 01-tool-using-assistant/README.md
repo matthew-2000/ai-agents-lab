@@ -3,7 +3,7 @@
 ## Objective
 
 Build a minimal agent loop that can decide when to call simple tools and when to answer directly.
-This project is the clean starting point for the whole repository: narrow scope, low abstraction, and fast iteration.
+This project is the clean starting point for the whole repository: narrow scope, low abstraction, fast iteration, and an explicit LLM-powered agent core paired with simple deterministic tools.
 
 ## Main Concept
 
@@ -27,6 +27,7 @@ Examples:
 A reasonable first version should remain deliberately small:
 
 - single agent loop
+- one LLM-driven decision layer for the observe, reason, act cycle
 - tool selection and execution layer
 - observation to reasoning to action cycle
 - final response assembly
@@ -73,17 +74,25 @@ This project should stay intentionally constrained.
 
 ## Current Project Status
 
-Scaffold only. No agent logic is implemented yet.
+Implemented as a narrow v1 agent using the OpenAI Responses API plus three deterministic local tools: calculator, mocked weather lookup, and local knowledge-base search.
 
 The current folder is ready for iterative development, with room for local experiments, simple evals, and design notes without introducing cross-project dependencies.
+
+## Running The Project
+
+1. Install dependencies: `pip install -r requirements.txt`
+2. Copy `.env.example` to `.env` and set `OPENAI_API_KEY`
+3. Run a local tool sanity check: `python src/main.py --self-check`
+4. Run one prompt end to end: `python src/main.py --prompt "What is 17 * 24?"`
+5. Or start the interactive loop: `python src/main.py`
 
 ## Suggested Next Steps
 
 1. Define a minimal tool interface.
-2. Implement one or two mock tools first.
-3. Add a simple prompt loop and trace logging.
-4. Create deterministic eval cases.
-5. Compare direct answering versus tool-assisted answering on the same prompts.
+2. Replace one mocked tool with a live external integration.
+3. Add a simple eval harness for `evals/test_cases.json`.
+4. Compare direct answering versus tool-assisted answering on the same prompts.
+5. Refine traces and prompt instructions based on observed failures.
 
 ## Evaluation Criteria
 

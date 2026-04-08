@@ -2,8 +2,8 @@
 
 ## Current Status
 
-- Scaffold only.
-- No production logic has been implemented yet.
+- A working v1 agent loop is implemented with the OpenAI Responses API.
+- The current toolset is intentionally small: calculator, mocked weather, and local knowledge-base search.
 - This project is intentionally independent from the other folders in the repository.
 
 ## Design Decisions
@@ -11,19 +11,21 @@
 - Keep scope narrow and realistic.
 - Avoid imports from sibling projects.
 - Prefer simple, inspectable components over premature abstractions.
+- Keep tools deterministic so tool selection remains the main behavior under evaluation.
+- Use local datasets for weather and factual search so the demo remains easy to run and inspect.
 
 ## Open Questions
 
-- Which narrow v1 workflow should be implemented first?
-- Which tool interfaces should remain explicit versus abstracted?
-- What is the minimum useful evaluation set for the first milestone?
+- When should the project graduate from mocked local tools to live external services?
+- How much trace detail is useful before the logs become noisy?
+- Should a future iteration add a lightweight automated eval runner around `test_cases.json`?
 
 ## Next Steps
 
-- Implement the first narrow happy path.
-- Add a few concrete eval cases.
-- Record tradeoffs and failure patterns after the first iteration.
+- Add a small automated eval harness over the existing test cases.
+- Compare prompt variants for tool selection and final answer quality.
+- Record concrete failure patterns after a few real prompts and tool errors.
 
 ## Failure Cases Observed
 
-- None yet. This file is ready to capture them as development starts.
+- None documented yet after implementation. Capture tool misuse, looping, or weak answer synthesis here as they appear.

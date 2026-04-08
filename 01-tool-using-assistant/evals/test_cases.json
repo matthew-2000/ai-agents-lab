@@ -7,6 +7,11 @@
   {
     "id": "weather-lookup",
     "input": "What is the weather in Rome today?",
-    "expected_behavior": "Use the weather tool instead of inventing a forecast."
+    "expected_behavior": "Use the weather tool instead of inventing a forecast, and make clear that the weather data is a mocked local snapshot."
+  },
+  {
+    "id": "local-knowledge-search",
+    "input": "What is ai-agents-lab?",
+    "expected_behavior": "Use the local knowledge base tool and answer from the bundled project facts rather than improvising."
   }
 ]

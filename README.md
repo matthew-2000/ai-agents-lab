@@ -4,6 +4,15 @@ A progressive collection of small AI agent projects, ordered from foundational p
 
 The sequence starts with simple tool use and moves toward memory, planning, coordination, reflection, guardrails, and research workflows.
 
+## Agent Convention
+
+Unless a project explicitly says otherwise, an "agent" in this repository is assumed to be LLM-powered.
+
+- Agents use an LLM as the decision-making engine for reasoning, tool selection, routing, critique, or response assembly.
+- Tools do not need to use an LLM and should often remain deterministic.
+- Memory, retrieval, and guardrail components do not need to be LLM-based unless the project specifically benefits from it.
+- If a project mixes LLM and non-LLM components, the documentation should state clearly which parts are agents and which parts are supporting infrastructure.
+
 ## Roadmap
 
 | Project | Focus | Difficulty | Status |

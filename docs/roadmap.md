@@ -2,6 +2,10 @@
 
 This repository follows a progressive path from simple single-agent systems to more advanced multi-agent and safety-aware designs.
 
+By default, components labeled as agents in this repository are LLM-powered.
+Tools, memory stores, retrieval indexes, and guardrails can remain deterministic unless a project has a clear reason to make them model-driven.
+Any exception to this convention should be documented in the relevant project README.
+
 Current state:
 
 - `01-tool-using-assistant` is scaffolded.

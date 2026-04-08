@@ -1,0 +1,32 @@
+[
+  {
+    "location": "Rome, Italy",
+    "aliases": ["rome", "roma", "rome italy"],
+    "date": "2026-04-08",
+    "condition": "Sunny intervals",
+    "temperature_c": 22,
+    "feels_like_c": 23,
+    "humidity_pct": 52,
+    "wind_kph": 11
+  },
+  {
+    "location": "Paris, France",
+    "aliases": ["paris", "paris france"],
+    "date": "2026-04-08",
+    "condition": "Light rain",
+    "temperature_c": 16,
+    "feels_like_c": 15,
+    "humidity_pct": 72,
+    "wind_kph": 18
+  },
+  {
+    "location": "New York, USA",
+    "aliases": ["new york", "new york city", "nyc"],
+    "date": "2026-04-08",
+    "condition": "Cloudy",
+    "temperature_c": 14,
+    "feels_like_c": 13,
+    "humidity_pct": 61,
+    "wind_kph": 20
+  }
+]

@@ -15,10 +15,16 @@ Explain a concrete, believable scenario where the project would be useful.
 Summarize the intended system design:
 
 - agent roles
+- which components are LLM-powered agents
 - control flow
 - data flow
 - tool usage
 - memory or state handling
+
+Repository convention:
+
+- Treat every component labeled as an "agent" as LLM-powered unless the project explicitly documents an exception.
+- Keep tools, storage, retrieval layers, and guardrails deterministic by default unless there is a clear reason to make them model-driven.
 
 ## Tools
 

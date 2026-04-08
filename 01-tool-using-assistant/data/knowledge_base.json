@@ -1,0 +1,22 @@
+[
+  {
+    "title": "ai-agents-lab",
+    "keywords": ["ai", "agents", "agent", "lab", "repository", "repo", "ai-agents-lab"],
+    "content": "ai-agents-lab is a progressive collection of small AI agent projects, ordered from foundational patterns to more advanced systems."
+  },
+  {
+    "title": "Tool-Using Assistant project",
+    "keywords": ["tool", "using", "assistant", "project", "calculator", "weather"],
+    "content": "The first project teaches a minimal agent loop that decides when to call tools and when to answer directly."
+  },
+  {
+    "title": "Rome",
+    "keywords": ["rome", "roma", "italy", "capital", "colosseum"],
+    "content": "Rome is the capital of Italy and is known for landmarks such as the Colosseum and the Roman Forum."
+  },
+  {
+    "title": "Paris",
+    "keywords": ["paris", "france", "eiffel", "capital"],
+    "content": "Paris is the capital of France and is associated with landmarks such as the Eiffel Tower and the Louvre."
+  }
+]
