@@ -38,6 +38,8 @@ htmlcov/
 
 # Logs and temporary outputs
 *.log
+01-tool-using-assistant/logs/*.jsonl
+02-memory-rag-agent/logs/*.jsonl
 **/tmp/
 **/artifacts/
 

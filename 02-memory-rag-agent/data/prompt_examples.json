@@ -1,0 +1,44 @@
+[
+  {
+    "id": "remember-name",
+    "category": "memory",
+    "summary": "Store a user name for a later follow-up",
+    "prompt": "My name is Matteo. Please remember it for later."
+  },
+  {
+    "id": "remember-preferences",
+    "category": "memory",
+    "summary": "Store explicit response preferences",
+    "prompt": "I live in Rome and I prefer concise answers in Italian."
+  },
+  {
+    "id": "memory-follow-up",
+    "category": "memory",
+    "summary": "Ask for a recap based on prior turns",
+    "prompt": "Can you recap what you know about me from this conversation so far?"
+  },
+  {
+    "id": "retrieval-rag",
+    "category": "retrieval",
+    "summary": "Trigger retrieval for a knowledge question",
+    "prompt": "Explain retrieval augmented generation."
+  },
+  {
+    "id": "retrieval-memory-vs-rag",
+    "category": "retrieval",
+    "summary": "Compare conversation memory and retrieval",
+    "prompt": "What is the difference between conversation memory and retrieval?"
+  },
+  {
+    "id": "memory-update-location",
+    "category": "robustness",
+    "summary": "Update a stored location and ask for the latest value",
+    "prompt": "I moved to Milan."
+  },
+  {
+    "id": "ambiguous-comparison",
+    "category": "robustness",
+    "summary": "Trigger a clarification response on an underspecified question",
+    "prompt": "Which one is better?"
+  }
+]

@@ -1,0 +1,89 @@
+[
+  {
+    "id": "memory-name-recall",
+    "category": "memory",
+    "turns": [
+      "My name is Matteo.",
+      "What is my name?"
+    ],
+    "expected_behavior": "The agent should answer that the user's name is Matteo."
+  },
+  {
+    "id": "memory-location-preference",
+    "category": "memory",
+    "turns": [
+      "I live in Rome and I prefer concise answers.",
+      "What do you know about me?"
+    ],
+    "expected_behavior": "The agent should mention Rome and the preference for concise answers."
+  },
+  {
+    "id": "memory-favorite",
+    "category": "memory",
+    "turns": [
+      "My favorite cuisine is Japanese.",
+      "Which cuisine did I say I liked most?"
+    ],
+    "expected_behavior": "The agent should answer Japanese or clearly refer to the favorite cuisine."
+  },
+  {
+    "id": "memory-out-of-pattern",
+    "category": "failure-case",
+    "turns": [
+      "At home, espresso is basically mandatory for me.",
+      "What drink preference did I mention?"
+    ],
+    "expected_behavior": "The current extractor may miss this. The failure should be understandable and documented."
+  },
+  {
+    "id": "retrieval-rag-definition",
+    "category": "retrieval",
+    "turns": [
+      "Explain retrieval augmented generation."
+    ],
+    "expected_behavior": "The agent should trigger retrieval, answer using the local knowledge base, and show the retrieved snippets used."
+  },
+  {
+    "id": "retrieval-memory-vs-retrieval",
+    "category": "retrieval",
+    "turns": [
+      "What is the difference between conversation memory and retrieval?"
+    ],
+    "expected_behavior": "The agent should trigger retrieval and use the snippet that distinguishes conversational memory from external retrieval."
+  },
+  {
+    "id": "no-retrieval-for-memory-question",
+    "category": "retrieval-gating",
+    "turns": [
+      "My name is Matteo.",
+      "What is my name?"
+    ],
+    "expected_behavior": "The agent should answer from conversation memory and should not trigger retrieval."
+  },
+  {
+    "id": "memory-conflict-location",
+    "category": "robustness",
+    "turns": [
+      "I live in Rome.",
+      "I moved to Milan.",
+      "Where do I live?"
+    ],
+    "expected_behavior": "The agent should mention that Milan is the latest location and note the earlier Rome value."
+  },
+  {
+    "id": "ambiguous-query-needs-clarification",
+    "category": "robustness",
+    "turns": [
+      "Which one is better?"
+    ],
+    "expected_behavior": "The agent should avoid guessing and ask for clarification."
+  },
+  {
+    "id": "missing-grounding-knowledge-query",
+    "category": "robustness",
+    "turns": [
+      "Explain quantum entanglement."
+    ],
+    "expected_behavior": "If the local knowledge base lacks relevant snippets, the agent should say it lacks grounded context instead of inventing an explanation."
+  }
+]

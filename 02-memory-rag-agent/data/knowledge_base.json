@@ -1,0 +1,20 @@
+[
+  {
+    "id": "kb-001",
+    "title": "Short-term memory in assistants",
+    "text": "Short-term memory helps an assistant carry user facts, preferences, and recent context across a conversation without pretending to have permanent recall.",
+    "tags": ["memory", "assistant", "context"]
+  },
+  {
+    "id": "kb-002",
+    "title": "Retrieval augmented generation basics",
+    "text": "Retrieval augmented generation combines a model with external documents so the final answer can be grounded in retrieved evidence instead of relying only on parametric memory.",
+    "tags": ["retrieval", "rag", "grounding"]
+  },
+  {
+    "id": "kb-003",
+    "title": "Why keep memory and retrieval separate",
+    "text": "Conversation memory and external retrieval serve different purposes. Memory stores what the user said earlier, while retrieval fetches information from a knowledge base or document set.",
+    "tags": ["memory", "retrieval", "architecture"]
+  }
+]

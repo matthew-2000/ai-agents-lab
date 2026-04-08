@@ -1,0 +1,3 @@
+# Standalone dependencies for 02 - Memory + RAG Agent
+openai
+python-dotenv
