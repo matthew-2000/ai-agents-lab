@@ -91,6 +91,15 @@ def load_knowledge_base() -> list[dict[str, Any]]:
     return load_json_file(DATA_DIR / "knowledge_base.json")
 
 
+def load_prompt_examples() -> list[dict[str, Any]]:
+    return load_json_file(DATA_DIR / "prompt_examples.json")
+
+
+def load_prompt_example_map() -> dict[str, dict[str, Any]]:
+    examples = load_prompt_examples()
+    return {example["id"]: example for example in examples}
+
+
 def normalize_text(value: str) -> str:
     return re.sub(r"\s+", " ", value.strip().lower())
 
@@ -412,8 +421,6 @@ def load_environment() -> None:
 
 
 def create_openai_client() -> Any:
-    load_environment()
-
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
         raise RuntimeError(
@@ -425,13 +432,14 @@ def create_openai_client() -> Any:
         from openai import OpenAI
     except ImportError as exc:
         raise RuntimeError(
-            "The openai package is not installed. Run `pip install -r 01-tool-using-assistant/requirements.txt`."
+            "The openai package is not installed. Run `python3 -m pip install -r "
+            "01-tool-using-assistant/requirements.txt`."
         ) from exc
 
     return OpenAI(api_key=api_key)
 
 
-def run_self_check() -> int:
+def run_self_check() -> None:
     tools = build_tools()
     tool_map = {tool.name: tool for tool in tools}
 
@@ -448,10 +456,36 @@ def run_self_check() -> int:
         print(json.dumps(result, indent=2, ensure_ascii=True))
         print()
 
-    return 0
+
+def format_example_line(example: dict[str, Any]) -> str:
+    category = example.get("category", "general")
+    summary = example.get("summary", "")
+    return f"{example['id']:<24} [{category}] {summary}".rstrip()
 
 
-def run_single_prompt(prompt: str, model: str, max_steps: int, no_log: bool) -> int:
+def list_examples() -> None:
+    examples = load_prompt_examples()
+
+    print("Available prompt examples:\n")
+    for example in examples:
+        print(format_example_line(example))
+    print("\nInside the interactive CLI, run one with:")
+    print("/example <example-id>")
+
+
+def get_example_prompt(example_id: str) -> str:
+    example_map = load_prompt_example_map()
+    example = example_map.get(example_id)
+    if example is not None:
+        return example["prompt"]
+
+    available = ", ".join(example_map)
+    raise RuntimeError(
+        f"Unknown example '{example_id}'. Available examples: {available}"
+    )
+
+
+def run_agent_prompt(prompt: str, model: str, max_steps: int, no_log: bool) -> None:
     client = create_openai_client()
     logger = TraceLogger(enabled=not no_log)
     agent = ToolUsingAgent(
@@ -463,17 +497,61 @@ def run_single_prompt(prompt: str, model: str, max_steps: int, no_log: bool) -> 
     )
 
     answer = agent.run(prompt)
-    print(answer)
+    print(f"Assistant> {answer}")
 
     if logger.path is not None:
         print(f"\nTrace log: {logger.path}")
 
-    return 0
+
+def print_repl_help() -> None:
+    print("Interactive commands:")
+    print("/help                Show this help message")
+    print("/examples            List bundled prompt examples")
+    print("/example <id>        Run one bundled example")
+    print("/self-check          Run local deterministic tool checks")
+    print("/exit                Quit the CLI")
+    print()
+    print("Any line that does not start with '/' is sent to the agent as a prompt.")
+
+
+def handle_repl_command(command: str, model: str, max_steps: int, no_log: bool) -> bool:
+    normalized = command.strip()
+
+    if normalized in {"/exit", "/quit"}:
+        return False
+
+    if normalized == "/help":
+        print_repl_help()
+        return True
+
+    if normalized == "/examples":
+        list_examples()
+        return True
+
+    if normalized == "/self-check":
+        run_self_check()
+        return True
+
+    if normalized.startswith("/example "):
+        example_id = normalized.removeprefix("/example ").strip()
+        if not example_id:
+            print("Usage: /example <example-id>", file=sys.stderr)
+            return True
+
+        prompt = get_example_prompt(example_id)
+        print(f"You> {prompt}")
+        run_agent_prompt(prompt, model=model, max_steps=max_steps, no_log=no_log)
+        return True
+
+    print(f"Unknown command: {normalized}", file=sys.stderr)
+    print("Type /help to see the available commands.", file=sys.stderr)
+    return True
 
 
 def interactive_loop(model: str, max_steps: int, no_log: bool) -> int:
     print("01 - Tool-Using Assistant")
-    print("Type a prompt, or type 'exit' to quit.\n")
+    print("Enter a prompt to send it to the agent.")
+    print("Type /help for commands, or /exit to quit.\n")
 
     while True:
         try:
@@ -484,32 +562,39 @@ def interactive_loop(model: str, max_steps: int, no_log: bool) -> int:
 
         if not prompt:
             continue
-        if prompt.lower() in {"exit", "quit"}:
-            return 0
 
         try:
-            run_single_prompt(prompt, model=model, max_steps=max_steps, no_log=no_log)
+            if prompt.startswith("/"):
+                should_continue = handle_repl_command(
+                    prompt,
+                    model=model,
+                    max_steps=max_steps,
+                    no_log=no_log,
+                )
+                if not should_continue:
+                    return 0
+                print()
+                continue
+
+            run_agent_prompt(prompt, model=model, max_steps=max_steps, no_log=no_log)
         except RuntimeError as exc:
             print(f"Error: {exc}", file=sys.stderr)
-            return 1
+            print()
+            continue
         except Exception as exc:  # noqa: BLE001
             print(f"Unexpected error: {exc}", file=sys.stderr)
-            return 1
+            print()
+            continue
 
         print()
 
 
 def build_parser() -> argparse.ArgumentParser:
-    load_environment()
     default_model = os.getenv("OPENAI_MODEL", DEFAULT_MODEL)
     default_max_steps = int(os.getenv("AGENT_MAX_STEPS", str(DEFAULT_MAX_STEPS)))
 
     parser = argparse.ArgumentParser(
         description="Run the minimal LLM-powered tool-using assistant.",
-    )
-    parser.add_argument(
-        "--prompt",
-        help="Run the agent once for a single user prompt.",
     )
     parser.add_argument(
         "--model",
@@ -536,22 +621,14 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main() -> None:
+    load_environment()
     parser = build_parser()
     args = parser.parse_args()
 
     try:
         if args.self_check:
-            raise SystemExit(run_self_check())
-
-        if args.prompt:
-            raise SystemExit(
-                run_single_prompt(
-                    prompt=args.prompt,
-                    model=args.model,
-                    max_steps=args.max_steps,
-                    no_log=args.no_log,
-                )
-            )
+            run_self_check()
+            raise SystemExit(0)
 
         raise SystemExit(
             interactive_loop(

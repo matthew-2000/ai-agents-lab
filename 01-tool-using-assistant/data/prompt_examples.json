@@ -1,0 +1,50 @@
+[
+  {
+    "id": "math-basic",
+    "category": "calculator",
+    "summary": "Basic arithmetic with a short explanation.",
+    "prompt": "What is 19 * 27, and explain in one sentence how you got it?"
+  },
+  {
+    "id": "math-answer-only",
+    "category": "calculator",
+    "summary": "Arithmetic where the answer should stay minimal.",
+    "prompt": "What is (18 + 7) * 4? Use the calculator if needed and give only the final answer."
+  },
+  {
+    "id": "weather-rome",
+    "category": "weather",
+    "summary": "Weather lookup with an explicit note about mocked data.",
+    "prompt": "What is the weather in Rome today? Keep the answer short and mention whether the data is live or mocked."
+  },
+  {
+    "id": "weather-paris",
+    "category": "weather",
+    "summary": "Weather lookup plus a tiny recommendation.",
+    "prompt": "What is the weather in Paris today, and should I expect rain?"
+  },
+  {
+    "id": "knowledge-lab",
+    "category": "knowledge",
+    "summary": "Search the local knowledge base and summarize the result.",
+    "prompt": "What is ai-agents-lab? Answer in two concise sentences."
+  },
+  {
+    "id": "combo-rome",
+    "category": "multi-step",
+    "summary": "Combine knowledge and weather in one answer.",
+    "prompt": "Tell me what ai-agents-lab is, then give me the weather in Rome today in a second sentence."
+  },
+  {
+    "id": "combo-all",
+    "category": "multi-step",
+    "summary": "Use multiple tools in sequence.",
+    "prompt": "First tell me what ai-agents-lab is. Then tell me the weather in Rome today. Finally compute 17 * 24."
+  },
+  {
+    "id": "missing-weather",
+    "category": "edge-case",
+    "summary": "Ask for unsupported weather data and check fallback behavior.",
+    "prompt": "What is the weather in Berlin today? If you do not have data, say so clearly."
+  }
+]

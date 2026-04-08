@@ -80,11 +80,26 @@ The current folder is ready for iterative development, with room for local exper
 
 ## Running The Project
 
-1. Install dependencies: `pip install -r requirements.txt`
+1. Install dependencies: `python3 -m pip install -r requirements.txt`
 2. Copy `.env.example` to `.env` and set `OPENAI_API_KEY`
-3. Run a local tool sanity check: `python src/main.py --self-check`
-4. Run one prompt end to end: `python src/main.py --prompt "What is 17 * 24?"`
-5. Or start the interactive loop: `python src/main.py`
+3. Run a local tool sanity check: `python3 src/main.py --self-check`
+4. Start the interactive CLI: `python3 src/main.py`
+
+The bundled examples live in `data/prompt_examples.json`, so you can keep extending them without touching the code.
+
+## Interactive CLI
+
+When you run `python3 src/main.py`, the project stays open and waits for your next prompt.
+
+Available commands inside the CLI:
+
+- `/help` shows the available commands
+- `/examples` lists the bundled example prompts
+- `/example combo-all` runs one bundled example
+- `/self-check` runs the local deterministic tool checks
+- `/exit` closes the CLI
+
+Any line that does not start with `/` is treated as a normal user prompt and sent to the agent.
 
 ## Suggested Next Steps
 
