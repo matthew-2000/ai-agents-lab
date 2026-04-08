@@ -1,0 +1,23 @@
+{
+  "doc_id": "web-python-urllib",
+  "source_type": "remote_web",
+  "title": "urllib.request --- Python Networking",
+  "text": "urllib.request --- Python Networking urllib.request The urllib.request module opens URLs and can be used to fetch remote HTML pages for ingestion pipelines. It supports custom headers and integrates well with standard-library tooling for lightweight fetch jobs.",
+  "url": "https://docs.python.org/3/library/urllib.request.html",
+  "section": "docs.python.org",
+  "updated_at": null,
+  "language": "en",
+  "tags": [
+    "python",
+    "urllib",
+    "http"
+  ],
+  "trust_score": 0.94,
+  "metadata": {
+    "host": "docs.python.org",
+    "freshness_sensitive": false,
+    "notes": "",
+    "synced_at": "2026-04-08T14:03:12+00:00",
+    "content_type": "text/html"
+  }
+}

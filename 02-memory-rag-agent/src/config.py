@@ -6,6 +6,9 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = PROJECT_ROOT / "data"
+SOURCES_DIR = DATA_DIR / "sources"
+REMOTE_CACHE_DIR = DATA_DIR / "remote_cache"
+FIXTURES_DIR = DATA_DIR / "fixtures"
 LOGS_DIR = PROJECT_ROOT / "logs"
 
 DEFAULT_MODEL = "gpt-5-mini"

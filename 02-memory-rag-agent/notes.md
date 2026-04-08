@@ -49,3 +49,37 @@
   cited chunk ids belong to the retrieved set.
 - A lightweight eval runner is part of the project so retrieval, grounding, and safety behavior
   can be exercised repeatedly.
+
+## Sprint 2 Professionalization Decisions
+
+- Queries are now analyzed before retrieval so the system can distinguish memory, knowledge,
+  comparison, and navigational retrieval requests.
+- Retrieval uses a local hybrid score that combines lexical evidence, lightweight semantic
+  similarity, and a reranking pass.
+- Metadata-aware filters can bias retrieval toward source types or languages mentioned by the
+  user without requiring a full external search stack yet.
+- Retrieval results carry score breakdowns so debugging can separate lexical recall from reranking
+  decisions.
+
+## Sprint 2 Tradeoffs
+
+- The "semantic" signal is still local and heuristic rather than embedding-based.
+- Freshness-aware filtering is only partial because the current local corpus has limited recency
+  metadata.
+- Source filtering is useful, but the corpus is still small enough that true domain routing will
+  matter more once online connectors arrive.
+
+## Sprint 3 Professionalization Decisions
+
+- Trusted web sources are now defined in a source catalog rather than being fetched ad hoc.
+- Host governance rules define which domains and URL prefixes are allowed into the corpus.
+- Remote pages are synced into a local cache as normalized documents so retrieval can stay local at
+  query time.
+- Incremental sync uses content hashes to skip unchanged pages and keep refresh runs predictable.
+
+## Sprint 3 Professionalization Tradeoffs
+
+- Governance is allowlist-based and currently tuned for a small curated set of domains.
+- Remote sync currently targets individual pages rather than crawling whole sites or sitemaps.
+- Incremental sync uses content hashing after fetch; it does not yet use conditional HTTP requests
+  such as ETags.

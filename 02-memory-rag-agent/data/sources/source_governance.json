@@ -1,0 +1,26 @@
+[
+  {
+    "host": "platform.openai.com",
+    "trust_score": 0.97,
+    "source_type": "remote_web",
+    "allow_subdomains": false,
+    "allowed_prefixes": ["/docs/"],
+    "freshness_sensitive": true
+  },
+  {
+    "host": "docs.python.org",
+    "trust_score": 0.94,
+    "source_type": "remote_web",
+    "allow_subdomains": false,
+    "allowed_prefixes": ["/3/"],
+    "freshness_sensitive": false
+  },
+  {
+    "host": "www.postgresql.org",
+    "trust_score": 0.93,
+    "source_type": "remote_web",
+    "allow_subdomains": false,
+    "allowed_prefixes": ["/docs/current/"],
+    "freshness_sensitive": false
+  }
+]

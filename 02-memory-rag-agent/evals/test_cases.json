@@ -49,8 +49,8 @@
     "turns": [
       "Explain retrieval augmented generation."
     ],
-    "expected_behavior": "The agent should trigger retrieval, answer using the local knowledge base, and show the retrieved snippets used.",
-    "required_substrings": ["retrieval", "Retrieved snippets used"],
+    "expected_behavior": "The agent should trigger retrieval, answer using the local knowledge base, and show the readable sources used.",
+    "required_substrings": ["retrieval", "Sources used"],
     "expect_retrieval_used": true,
     "expect_response_origin": "model",
     "expect_citation_validation": true
@@ -63,6 +63,17 @@
     ],
     "expected_behavior": "The agent should trigger retrieval and use the snippet that distinguishes conversational memory from external retrieval.",
     "required_substrings": ["memory", "retrieval"],
+    "expect_retrieval_used": true,
+    "expect_citation_validation": true
+  },
+  {
+    "id": "retrieval-bm25-vs-dense-paraphrase",
+    "category": "retrieval",
+    "turns": [
+      "Compare BM25 and embedding retrieval for RAG."
+    ],
+    "expected_behavior": "The agent should classify this as a comparison-style retrieval query and retrieve the sparse versus dense retrieval source.",
+    "required_substrings": ["bm25", "retrieval"],
     "expect_retrieval_used": true,
     "expect_citation_validation": true
   },

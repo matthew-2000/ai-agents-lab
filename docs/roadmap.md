@@ -9,7 +9,8 @@ Any exception to this convention should be documented in the relevant project RE
 Current state:
 
 - `01-tool-using-assistant` is scaffolded.
-- `02` through `09` are planned.
+- `02-memory-rag-agent` is implemented and serves as the first professionalized reference project.
+- `03` through `09` are planned.
 
 ## Stage 1: Single-Agent Foundations
 
@@ -24,6 +25,7 @@ Current state:
 - add short-term conversational memory
 - introduce retrieval over external knowledge
 - separate recalled context from current input
+- professionalize with source normalization, hybrid retrieval, citations, and trusted source sync
 
 ## Stage 2: Structured Reasoning
 
@@ -82,3 +84,8 @@ Current state:
 - document failure modes early instead of hiding them
 - prefer simple evals over large infrastructure
 - extract lessons after each project before moving to the next one
+
+Applied lesson from `02-memory-rag-agent`:
+
+- once a project becomes more than a toy demo, add observability, evals, and source governance
+  before adding more raw model complexity

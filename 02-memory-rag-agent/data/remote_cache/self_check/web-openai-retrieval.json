@@ -1,0 +1,23 @@
+{
+  "doc_id": "web-openai-retrieval",
+  "source_type": "remote_web",
+  "title": "OpenAI Retrieval Guide",
+  "text": "OpenAI Retrieval Guide Retrieval Guide Retrieval systems combine a query interface with a document store so answers can be grounded in trusted evidence. A strong retrieval stack usually includes document chunking, ranking, filtering, and clear citation behavior.",
+  "url": "https://platform.openai.com/docs/guides/retrieval",
+  "section": "platform.openai.com",
+  "updated_at": null,
+  "language": "en",
+  "tags": [
+    "openai",
+    "retrieval",
+    "rag"
+  ],
+  "trust_score": 0.97,
+  "metadata": {
+    "host": "platform.openai.com",
+    "freshness_sensitive": true,
+    "notes": "",
+    "synced_at": "2026-04-08T14:03:12+00:00",
+    "content_type": "text/html"
+  }
+}

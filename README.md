@@ -18,7 +18,7 @@ Unless a project explicitly says otherwise, an "agent" in this repository is ass
 | Project | Focus | Difficulty | Status |
 | --- | --- | --- | --- |
 | `01-tool-using-assistant` | Basic agent loop, tool calling, simple ReAct pattern | Beginner | Scaffolded |
-| `02-memory-rag-agent` | Memory, retrieval, contextual recall, simple RAG | Beginner to intermediate | Planned |
+| `02-memory-rag-agent` | Memory, retrieval, contextual recall, grounded RAG with source sync | Beginner to intermediate | Implemented |
 | `03-planner-executor-agent` | Task decomposition and plan/execution split | Intermediate | Planned |
 | `04-travel-planner-agent` | Constraint-aware planning with budget, time, and interests | Intermediate | Planned |
 | `05-manager-multi-agent` | Manager pattern coordinating specialist agents | Intermediate | Planned |
@@ -44,7 +44,8 @@ Unless a project explicitly says otherwise, an "agent" in this repository is ass
 The repository currently contains:
 
 - the initial scaffold for `01-tool-using-assistant`
-- planned stubs for `02` through `09`
+- an implemented `02-memory-rag-agent` with memory, hybrid retrieval, citations, and trusted source sync
+- planned stubs for `03` through `09`
 - shared documentation used to keep the sequence consistent as the projects evolve
 
 ## How To Read It
@@ -78,6 +79,14 @@ Each project should eventually be judged on:
 - visibility of failure cases and design limitations
 
 The aim is to keep evaluation lightweight but concrete from the start.
+
+At the repository level, `02-memory-rag-agent` now sets the quality bar for later projects by
+showing:
+
+- clear separation between agent behavior and deterministic support systems
+- eval-backed iteration instead of prompt-only tuning
+- inspectable retrieval with citations and readable sources
+- a local-first architecture with optional trusted online sync instead of uncontrolled live web access
 
 ## Future Additions
 

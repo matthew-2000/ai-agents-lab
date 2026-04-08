@@ -10,9 +10,11 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from citations import extract_chunk_citations, format_sources_appendix
 from config import LOGS_DIR, build_system_prompt
+from documents import RetrievedSnippet
 from memory import MemoryConflict, ShortTermMemoryStore
-from retrieval import LocalKnowledgeBase, RetrievedSnippet, build_retrieval_block
+from retrieval import LocalKnowledgeBase, build_retrieval_block
 
 
 @dataclass
@@ -78,29 +80,6 @@ def build_diagnostics_block(warnings: list[str], relevant_conflicts: list[Memory
         return "No additional diagnostics."
 
     return "\n".join(lines)
-
-
-def format_sources_appendix(snippets: list[RetrievedSnippet]) -> str:
-    """Render a deterministic sources appendix for retrieved snippets."""
-
-    if not snippets:
-        return ""
-
-    lines = ["Retrieved snippets used:"]
-    for snippet in snippets:
-        lines.append(f"- {snippet.id}: {snippet.title}")
-    return "\n".join(lines)
-
-
-def extract_chunk_citations(text: str) -> list[str]:
-    """Extract inline chunk citations such as [kb-002#chunk-01]."""
-
-    citations = re.findall(r"\[(kb-\d{3}#chunk-\d{2})\]", text)
-    seen: list[str] = []
-    for citation in citations:
-        if citation not in seen:
-            seen.append(citation)
-    return seen
 
 
 class TraceLogger:
@@ -206,6 +185,7 @@ class MemoryRagAgent:
                     "query_type": retrieval_decision.query_type,
                     "needs_clarification": retrieval_decision.needs_clarification,
                     "warnings": retrieval_decision.warnings,
+                    "analysis": asdict(retrieval_decision.analysis),
                     "snippets": [asdict(snippet) for snippet in retrieval_decision.snippets],
                 },
                 "relevant_conflicts": [asdict(conflict) for conflict in relevant_conflicts],
@@ -279,6 +259,7 @@ class MemoryRagAgent:
                     "query_type": retrieval_decision.query_type,
                     "needs_clarification": retrieval_decision.needs_clarification,
                     "warnings": retrieval_decision.warnings,
+                    "analysis": asdict(retrieval_decision.analysis),
                     "snippets": [asdict(snippet) for snippet in retrieval_decision.snippets],
                 },
                 "warnings": warnings,

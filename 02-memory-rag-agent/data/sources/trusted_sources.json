@@ -1,0 +1,26 @@
+[
+  {
+    "id": "web-openai-retrieval",
+    "title": "OpenAI Retrieval Guide",
+    "url": "https://platform.openai.com/docs/guides/retrieval",
+    "tags": ["openai", "retrieval", "rag", "official"],
+    "language": "en",
+    "notes": "Official retrieval guidance used as a trusted web source."
+  },
+  {
+    "id": "web-python-urllib",
+    "title": "Python urllib.request",
+    "url": "https://docs.python.org/3/library/urllib.request.html",
+    "tags": ["python", "urllib", "http", "official"],
+    "language": "en",
+    "notes": "Python standard-library networking documentation."
+  },
+  {
+    "id": "web-postgres-text-search",
+    "title": "PostgreSQL Full Text Search Introduction",
+    "url": "https://www.postgresql.org/docs/current/textsearch-intro.html",
+    "tags": ["postgresql", "search", "retrieval", "official"],
+    "language": "en",
+    "notes": "Reference source for search and indexing concepts."
+  }
+]
