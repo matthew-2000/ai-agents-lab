@@ -7,7 +7,7 @@
   {
     "id": "weather-lookup",
     "input": "What is the weather in Rome today?",
-    "expected_behavior": "Use the weather tool instead of inventing a forecast, and make clear that the weather data is a mocked local snapshot."
+    "expected_behavior": "Use the weather tool instead of inventing a forecast. Prefer the live Open-Meteo integration when available, and clearly mention if local fallback data was used instead."
   },
   {
     "id": "local-knowledge-search",

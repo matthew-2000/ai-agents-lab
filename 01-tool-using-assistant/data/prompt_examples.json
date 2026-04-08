@@ -14,8 +14,8 @@
   {
     "id": "weather-rome",
     "category": "weather",
-    "summary": "Weather lookup with an explicit note about mocked data.",
-    "prompt": "What is the weather in Rome today? Keep the answer short and mention whether the data is live or mocked."
+    "summary": "Weather lookup that should mention whether data is live or fallback.",
+    "prompt": "What is the weather in Rome today? Keep the answer short and mention whether the data is live or fallback."
   },
   {
     "id": "weather-paris",

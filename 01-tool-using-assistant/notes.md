@@ -3,7 +3,7 @@
 ## Current Status
 
 - A working v1 agent loop is implemented with the OpenAI Responses API.
-- The current toolset is intentionally small: calculator, mocked weather, and local knowledge-base search.
+- The current toolset is intentionally small: calculator, live weather with fallback, and local knowledge-base search.
 - This project is intentionally independent from the other folders in the repository.
 
 ## Design Decisions
@@ -12,11 +12,11 @@
 - Avoid imports from sibling projects.
 - Prefer simple, inspectable components over premature abstractions.
 - Keep tools deterministic so tool selection remains the main behavior under evaluation.
-- Use local datasets for weather and factual search so the demo remains easy to run and inspect.
+- Use a live weather integration where it adds realism, but keep local fallback data so the demo remains robust and inspectable.
 
 ## Open Questions
 
-- When should the project graduate from mocked local tools to live external services?
+- Which other mocked components should graduate to live external services after weather?
 - How much trace detail is useful before the logs become noisy?
 - Should a future iteration add a lightweight automated eval runner around `test_cases.json`?
 

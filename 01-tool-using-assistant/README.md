@@ -61,12 +61,18 @@ This project should stay intentionally constrained.
 ├── requirements.txt
 ├── .env.example
 ├── src/
-│   └── main.py
+│   ├── agent.py
+│   ├── cli.py
+│   ├── config.py
+│   ├── main.py
+│   └── tools.py
 ├── evals/
 │   ├── README.md
 │   └── test_cases.json
 ├── data/
-│   └── .gitkeep
+│   ├── knowledge_base.json
+│   ├── prompt_examples.json
+│   └── weather_snapshots.json
 ├── logs/
 │   └── .gitkeep
 └── notes.md
@@ -74,7 +80,7 @@ This project should stay intentionally constrained.
 
 ## Current Project Status
 
-Implemented as a narrow v1 agent using the OpenAI Responses API plus three deterministic local tools: calculator, mocked weather lookup, and local knowledge-base search.
+Implemented as a narrow v1 agent using the OpenAI Responses API plus three tools: a deterministic calculator, a live Open-Meteo weather integration with local fallback data, and local knowledge-base search.
 
 The current folder is ready for iterative development, with room for local experiments, simple evals, and design notes without introducing cross-project dependencies.
 
@@ -86,6 +92,14 @@ The current folder is ready for iterative development, with room for local exper
 4. Start the interactive CLI: `python3 src/main.py`
 
 The bundled examples live in `data/prompt_examples.json`, so you can keep extending them without touching the code.
+
+Each live run now prints:
+
+- the resolved model name
+- `input_tokens`
+- `output_tokens`
+- `total_tokens`
+- the trace log path when logging is enabled
 
 ## Interactive CLI
 
@@ -104,7 +118,7 @@ Any line that does not start with `/` is treated as a normal user prompt and sen
 ## Suggested Next Steps
 
 1. Define a minimal tool interface.
-2. Replace one mocked tool with a live external integration.
+2. Decide whether another mocked tool should become a live integration.
 3. Add a simple eval harness for `evals/test_cases.json`.
 4. Compare direct answering versus tool-assisted answering on the same prompts.
 5. Refine traces and prompt instructions based on observed failures.
